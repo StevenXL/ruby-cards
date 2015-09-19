@@ -18,15 +18,17 @@ class GameController
       card = deck.get_card
       view.display(card.definition)
       input = view.user_input
-      break if input == "exit"
 
-      if input == "pass"
-        next
-      end
-
-      until check?(input, card.term)
+      until check?(input, card.term) || exit?(input) || pass?(input)
         view.display("Incorrect. Try again")
         view.display(card.definition)
+        input = view.user_input
+      end
+
+      break if exit?(input)
+
+      if pass?(input)
+        next
       end
 
       view.display("Nice job!")
@@ -35,5 +37,13 @@ class GameController
 
   def check?(input, term)
     input == term
+  end
+
+  def pass?(input)
+    input == 'pass'
+  end
+
+  def exit?(input)
+    input == "exit"
   end
 end
