@@ -8,6 +8,7 @@ class View
   end
 
   def display(str)
+    puts
     puts str
   end
 
