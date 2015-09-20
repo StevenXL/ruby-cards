@@ -2,7 +2,7 @@ class Deck
   attr_reader :deck, :enum
 
   def initialize(deck = [])
-    @deck = deck
+    @deck = deck.shuffle!
     @enum = deck.each
   end
 
