@@ -8,47 +8,51 @@ class GameController
 
   def run
     View.display(welcome)
-    input = View.user_input
-    start_game(input)
+    run_game
   end
 
   def welcome
     "Welcome to Ruby Cards!\n  1. Press any key to start the game.\n  2. Once the game has started, type 'exit' exit the game or 'pass' to skip a card."
   end
 
-  def start_game(input)
-    loop do
-      card = deck.get_card
-      View.display(card.definition)
-      input = View.user_input
+  def run_game(card = nil)
+    card = deck.get_card if card.nil?
+    View.display(card.definition)
+    input = View.user_input
 
-      until check?(input, card.term) || exit?(input) || pass?(input)
-        View.display("Incorrect. Try again")
-        View.display(card.definition)
-        input = View.user_input
-      end
+    parse_input(input, card)
+  end
 
-      break if exit?(input)
-
-      if pass?(input)
-        View.display("The correct term was #{card.term}.")
-        sleep(0.3)
-        next
-      end
-
-      View.display("Nice job!")
+  def parse_input(input, card)
+    case input
+    when "exit"
+      exit_game
+    when "pass"
+      pass(card)
+    else
+      check?(input, card)
     end
   end
 
-  def check?(input, term)
-    input == term
+  def exit_game
+    #TODO
+    # View.display(score)
+    View.display("Goodbye!")
+    exit
   end
 
-  def pass?(input)
-    input == 'pass'
+  def pass(card)
+    View.display("The correct answer was #{card.term}")
+    run_game
   end
 
-  def exit?(input)
-    input == "exit"
+  def check?(input, card)
+    if input == card.term
+      View.display("That's correct!")
+      run_game
+    else
+      View.display("Try again!")
+      run_game(card)
+    end
   end
 end
