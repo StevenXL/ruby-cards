@@ -28,6 +28,8 @@ class GameController
       break if exit?(input)
 
       if pass?(input)
+        view.display("The correct term was #{card.term}.")
+        sleep(0.3)
         next
       end
 
