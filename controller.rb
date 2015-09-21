@@ -28,7 +28,7 @@ class GameController
       break if exit?(input)
 
       if pass?(input)
-        view.dislay("The correct term was #{deck.term}.")
+        view.dislay("The correct term was #{card.term}.")
         sleep(0.3)
         next
       end
