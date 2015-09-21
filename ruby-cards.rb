@@ -6,4 +6,8 @@ require_relative 'controller'
 require 'csv'
 
 
-GameController.new(CardParser.parse('flashcard_samples.csv'))
+file = 'flashcard_samples.csv'
+
+file = ARGV[0] if ARGV[0]
+
+GameController.new(CardParser.parse(file))

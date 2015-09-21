@@ -1,39 +1,42 @@
 class GameController
-  attr_reader :view, :deck
+  attr_reader :deck
 
   def initialize(deck)
-    @view = View.new
     @deck = Deck.new(deck)
     run
   end
 
   def run
-    view.welcome
-    input = view.user_input
+    View.display(welcome)
+    input = View.user_input
     start_game(input)
+  end
+
+  def welcome
+    "Welcome to Ruby Cards!\n  1. Press any key to start the game.\n  2. Once the game has started, type 'exit' exit the game or 'pass' to skip a card."
   end
 
   def start_game(input)
     loop do
       card = deck.get_card
-      view.display(card.definition)
-      input = view.user_input
+      View.display(card.definition)
+      input = View.user_input
 
       until check?(input, card.term) || exit?(input) || pass?(input)
-        view.display("Incorrect. Try again")
-        view.display(card.definition)
-        input = view.user_input
+        View.display("Incorrect. Try again")
+        View.display(card.definition)
+        input = View.user_input
       end
 
       break if exit?(input)
 
       if pass?(input)
-        view.display("The correct term was #{card.term}.")
+        View.display("The correct term was #{card.term}.")
         sleep(0.3)
         next
       end
 
-      view.display("Nice job!")
+      View.display("Nice job!")
     end
   end
 
